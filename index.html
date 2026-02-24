@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root {
+    --petal-pink: #ff8fa3;
+    --petal-soft: #ffafbd;
+    --stem-color: #5d8245;
+    --leaf-color: #789262;
+    --bg-pink: #ffe4e9;
+    --bg-white: #ffffff;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* Use min-height so it doesn't clip on small screens */
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, var(--bg-pink) 0%, var(--bg-white) 100%);
+    background-image: 
+      radial-gradient(circle, #fff 20%, transparent 20%),
+      radial-gradient(circle, #fff 20%, transparent 20%),
+      radial-gradient(circle, #ffcbd5 20%, transparent 20%),
+      radial-gradient(circle, #ffcbd5 20%, transparent 20%);
+    background-size: 60px 60px;
+    background-position: 0 0, 30px 30px, 15px 45px, 45px 15px;
+    font-family: 'Georgia', serif;
+    overflow-x: hidden;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+  }
+
+  .flower-wrapper {
+    animation: float 5s ease-in-out infinite;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 100;
+    /* This makes it work on mobile tap too */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .flower-head {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* MOBILE TWEAK: Shrink the whole flower for small screens */
+  @media (max-width: 600px) {
+    .flower-wrapper {
+      transform: scale(0.8);
+    }
+    .stem {
+      height: 180px !important; /* Slightly shorter stem for mobile */
+    }
+  }
+
+  .center {
+    width: 45px;
+    height: 45px;
+    background: radial-gradient(circle, #ffd700, #f39c12);
+    border-radius: 50%;
+    position: absolute;
+    z-index: 20; 
+    box-shadow: 0 0 15px rgba(243, 156, 18, 0.5);
+    transition: transform 2s ease;
+  }
+
+  .petal {
+    position: absolute;
+    width: 50px;
+    height: 90px;
+    background: linear-gradient(to bottom, var(--petal-pink) 0%, var(--petal-soft) 50%, #ffffff 100%);
+    border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%;
+    transform-origin: bottom center;
+    transition: all 3s cubic-bezier(0.4, 0, 0.2, 1);
+    bottom: 25px; 
+    z-index: 5;
+    opacity: 0.3;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+  }
+
+  .p1, .p2, .p3, .p4, .p5, .p6, .p7, .p8 { transform: rotate(0deg); }
+
+  /* HOVER & ACTIVE (for mobile tap) */
+  .flower-wrapper:hover .petal, .flower-wrapper:active .petal { opacity: 1; }
+  .flower-wrapper:hover .center, .flower-wrapper:active .center { transform: scale(1.1); } 
+  
+  .flower-wrapper:hover .p1, .flower-wrapper:active .p1 { transform: rotate(0deg) translateY(-15px); }
+  .flower-wrapper:hover .p2, .flower-wrapper:active .p2 { transform: rotate(45deg); }
+  .flower-wrapper:hover .p3, .flower-wrapper:active .p3 { transform: rotate(90deg); }
+  .flower-wrapper:hover .p4, .flower-wrapper:active .p4 { transform: rotate(135deg); }
+  .flower-wrapper:hover .p5, .flower-wrapper:active .p5 { transform: rotate(180deg); }
+  .flower-wrapper:hover .p6, .flower-wrapper:active .p6 { transform: rotate(225deg); }
+  .flower-wrapper:hover .p7, .flower-wrapper:active .p7 { transform: rotate(270deg); }
+  .flower-wrapper:hover .p8, .flower-wrapper:active .p8 { transform: rotate(315deg); }
+
+  .stem {
+    width: 10px;
+    height: 220px;
+    background: linear-gradient(to bottom, var(--stem-color), #3a522a);
+    border-radius: 5px;
+    margin-top: -10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .leaf {
+    position: absolute;
+    width: 50px;
+    height: 30px;
+    background: linear-gradient(to right, var(--leaf-color), #5d8245);
+    border-radius: 0 100% 0 100%;
+    transition: transform 2s ease;
+  }
+
+  .leaf.left { top: 60px; right: 10px; transform: rotate(-15deg); transform-origin: right bottom; }
+  .leaf.right { top: 110px; left: 10px; border-radius: 100% 0 100% 0; transform: rotate(15deg); transform-origin: left bottom; }
+
+  .message {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: transparent;
+    text-align: center;
+    color: #a36371;
+    font-size: 1.2rem;
+    font-style: italic;
+    font-weight: bold;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 3s ease;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  }
+
+  .flower-wrapper:hover ~ .message, .flower-wrapper:active ~ .message {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+  <div class="flower-wrapper">
+    <div class="flower-head">
+      <div class="center"></div>
+      <div class="petal p1"></div>
+      <div class="petal p2"></div>
+      <div class="petal p3"></div>
+      <div class="petal p4"></div>
+      <div class="petal p5"></div>
+      <div class="petal p6"></div>
+      <div class="petal p7"></div>
+      <div class="petal p8"></div>
+    </div>
+    <div class="stem">
+      <div class="leaf left"></div>
+      <div class="leaf right"></div>
+    </div>
+  </div>
+
+  <div class="message">
+    Just for you...
+  </div>
+
+</body>
+</html>
